@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Madhav Iyengar | PhD Student, University of Tübingen</title>
+  <meta name="description" content="Madhav Iyengar is a PhD student in the Computer Vision and Multimodal Learning group at the University of Tübingen, working on looped models, multimodal learning and representation learning.">
+  <meta name="author" content="Madhav Iyengar">
+  <meta name="google-site-verification" content="fSUJclRIt6SSLzbLlqw6iklCKTnELWrMKQztUNrKUSI" />
+  <meta name="theme-color" content="#f6f1e7">
+  <link rel="canonical" href="https://madhavesdios.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Madhav Iyengar">
+  <meta property="og:description" content="Madhav Iyengar is a PhD student in the Computer Vision and Multimodal Learning group at the University of Tübingen, working on looped models, multimodal learning and representation learning.">
+  <meta property="og:url" content="https://madhavesdios.github.io/">
+  <meta property="og:image" content="https://madhavesdios.github.io/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://madhavesdios.github.io/assets/og-image.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+
+  <!-- Runs synchronously BEFORE first paint: picks the theme and decides whether the intro plays,
+       so the homepage never flashes before the black intro overlay. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      try {
+        d.classList.add('js');
+        var theme = null;
+        try { theme = localStorage.getItem('theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        d.setAttribute('data-theme', theme);
+
+        // search-engine crawlers (Googlebot, Bingbot, ...) get the page straight away: same content, no animation
+        if (/bot|crawl|spider|slurp|Google-InspectionTool/i.test(navigator.userAgent)) return;
+        var forced = /[?&]intro=1(&|$)/.test(location.search); // explicit replay (nav button, footer link, Konami code)
+        // Reduced motion only blocks the AUTOMATIC first-visit intro; a visitor who asks for the replay gets it.
+        if (!forced && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (location.hash && location.hash.length > 1) return; // deep link (e.g. /#publications): no intro
+        var seen = false;
+        try { seen = !!localStorage.getItem('genjutsu-seen'); } catch (e) {}
+        if (forced || !seen) {
+          d.classList.add('intro-active');
+          // Last-resort safety net, independent of intro.js (off in preview mode: ?intro=1&at=2.5). It must never fire
+          // before intro.js's own timers, which start when that script boots (a second or two after this one on a slow
+          // network): its hard timeout is loadMax + totalDuration + safetyExtra = 17.8 s (a replay's loadMaxForced: 28.8 s).
+          // Keep these two numbers above those, with room for the boot delay.
+          if (!/[?&]at=/.test(location.search)) {
+            setTimeout(function () { d.classList.remove('intro-active'); }, forced ? 35000 : 22000);
+          }
+        } else {
+          d.classList.add('intro-returning');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700&text=%E5%B9%BB%E8%A1%93&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=2026-10-14f">
+
+  <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://madhavesdios.github.io/",
+    "name": "Madhav Iyengar",
+    "dateModified": "2026-10-14",
+    "mainEntity": {
+      "@type": "Person",
+      "@id": "https://madhavesdios.github.io/#person",
+      "name": "Madhav Iyengar",
+      "givenName": "Madhav",
+      "familyName": "Iyengar",
+      "url": "https://madhavesdios.github.io/",
+      "image": "https://madhavesdios.github.io/assets/photo.jpg",
+      "jobTitle": "PhD Student",
+      "description": "PhD student in the Computer Vision and Multimodal Learning (CVML) group at the University of Tübingen and the Tübingen AI Center, working on looped models, multimodal learning and representation learning.",
+      "affiliation": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Tübingen",
+          "url": "https://uni-tuebingen.de/en/"
+        },
+        {
+          "@type": "ResearchOrganization",
+          "name": "Tübingen AI Center",
+          "url": "https://tuebingen.ai/"
+        },
+        {
+          "@type": "ResearchOrganization",
+          "name": "Computer Vision and Multimodal Learning (CVML) group",
+          "url": "https://cvml.tuebingen.ai/"
+        }
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Tübingen",
+        "url": "https://uni-tuebingen.de/en/"
+      },
+      "knowsAbout": [
+        "Looped models",
+        "Multimodal learning",
+        "Representation learning",
+        "Machine learning",
+        "Computer vision"
+      ],
+      "sameAs": [
+        "https://scholar.google.com/citations?user=Att71I0AAAAJ",
+        "https://github.com/MadhavEsDios",
+        "https://www.linkedin.com/in/madhav-iyengar-012398135"
+      ]
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Intro overlay: hidden unless <html> has class "intro-active". Content is built by js/intro.js -->
+  <div id="intro" class="intro-overlay" role="dialog" aria-label="Introduction animation">
+    <button type="button" class="intro-skip" aria-label="Skip intro">Skip intro</button>
+  </div>
+
+  <header class="site-nav" id="top">
+    <nav class="nav-inner" aria-label="Main">
+      <a class="brand" href="#about">Madhav Iyengar</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#teaching">Teaching</a></li>
+      </ul>
+      <a class="replay-btn" id="replay-nav" href="?intro=1" title="Replay the intro" aria-label="Replay the intro">
+        <svg viewBox="-32 -32 64 64" width="18" height="18" aria-hidden="true"><circle r="28.5" fill="none" stroke="currentColor" stroke-width="3.5"/><g fill="currentColor"><circle r="5.5"/><g id="rt"><circle cy="-15" r="4.2"/><path d="M-4.2-15C-4.2-21 2.5-24.5 8-20.5 3.5-21 1.2-18 4.2-15Z"/></g><use href="#rt" transform="rotate(120)"/><use href="#rt" transform="rotate(240)"/></g></svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" type="button" title="Tsukuyomi" aria-label="Toggle Tsukuyomi (dark) theme" aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Full-bleed hero banner (assets/intro/web/hero.webp). To change the picture, replace that file (and web-sm/hero.webp). -->
+  <!-- Hero banner. Light theme: the picture(s) listed in data-sun-images (one picture = no loop; with two, a slow loop; data-pos-sun-list = their object-positions:
+       data-hold seconds each, data-fade seconds crossfade; no loop with reduced motion). Dark "Tsukuyomi" theme: the throne
+       (assets/intro/web/hero-throne.webp). data-pos-sun / data-pos-night = object-position of each.
+       Optional red glow over the sun picture's eyes: data-glow="on" plus
+       data-eye-left / data-eye-right ("x,y" as fractions of the first picture). -->
+  <header class="hero-banner" data-glow="off" data-eye-left="0.453,0.197" data-eye-right="0.554,0.207" data-pos-sun="50% 18%" data-pos-sun-list="50% 18%" data-pos-night="50% 75%"
+          data-sun-images="assets/intro/web/hero-sun.webp" data-hold="7" data-fade="2.5">
+    <div class="hero-media"><div class="hero-imgs">
+      <img class="hero-img hero-img-night" alt="" width="2560" height="1440" decoding="async">
+    </div></div>
+    <div class="hero-shade"></div>
+    <div class="hero-title">
+      <h1>Madhav Iyengar</h1>
+      <p>PhD Student &middot; University of Tübingen</p>
+    </div>
+  </header>
+  <script>
+    (function () {
+      var b = document.querySelector('.hero-banner'), box = b.querySelector('.hero-imgs'), night = b.querySelector('.hero-img-night');
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      var small = Math.max(innerWidth, innerHeight) * Math.min(window.devicePixelRatio || 1, 2) < 1500;
+      var dir = small ? 'web-sm/' : 'web/';
+      var V = '?v=2026-10-09e'; // bump when banner images change, so browsers don't show cached old ones
+      var list = b.getAttribute('data-sun-images').split(',');
+      var suns = list.map(function (src, i) { // light-theme pictures; the first one is the main image
+        var im = document.createElement('img');
+        im.className = 'hero-img hero-img-sun' + (i === 0 ? ' is-on' : ''); im.alt = ''; im.decoding = 'async';
+        im.width = 2560; im.height = 1440; im.setAttribute('data-src', src.trim().replace('/web/', '/' + dir));
+        if (i === 0 && !small && innerWidth * Math.min(window.devicePixelRatio || 1, 2) > 2600) { // big / Retina: 3840px version, else the 2560 one
+          var orig = src.trim(); im.setAttribute('data-src', orig.replace('.webp', '-3840.webp'));
+          im._fb = orig + V;
+        }
+        im.onerror = function () { if (im._fb) { var fb = im._fb; im._fb = null; im.src = fb; return; } im.parentNode && im.parentNode.removeChild(im); var f = box.querySelector('.hero-img-sun'); if (f && !box.querySelector('.hero-img-sun.is-on')) f.classList.add('is-on'); };
+        var pl = (b.getAttribute('data-pos-sun-list') || '').split(',')[i]; if (pl) im.style.objectPosition = pl.trim();
+        box.insertBefore(im, night); return im;
+      });
+      function loadSun(i) { var im = suns[i]; if (im && !im.src) im.src = im.getAttribute('data-src') + V; }
+      function loadNight() { // hero-throne.webp (3840px version on big / Retina screens, falls back to 2560)
+        var big = !small && innerWidth * Math.min(window.devicePixelRatio || 1, 2) > 2600;
+        if (big) night.onerror = function () { night.onerror = null; night.src = 'assets/intro/web/hero-throne.webp' + V; };
+        night.src = 'assets/intro/' + (big ? 'web/hero-throne-3840.webp' : dir + 'hero-throne.webp') + V;
+      }
+      if (dark) { loadNight(); } else { loadSun(0); }
+      function later() { setTimeout(function () { if (dark) loadSun(0); else loadNight(); suns.forEach(function (_, i) { loadSun(i); }); }, 0); }
+      if (document.readyState === 'complete') later(); else addEventListener('load', later);
+    })();
+  </script>
+
+  <main>
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="hero">
+      <img class="photo" src="assets/photo.jpg?v=4" alt="Photo of Madhav Iyengar" width="600" height="800"
+           onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'photo photo-ph',textContent:'Photo',ariaLabel:'Photo placeholder'}))">
+      <div class="hero-text">
+        <p>
+          I am a PhD student in the <a href="https://cvml.tuebingen.ai/">Computer Vision and Multimodal Learning (CVML) group</a>
+          at the <a href="https://uni-tuebingen.de/en/">University of Tübingen</a> and the <a href="https://tuebingen.ai/">Tübingen AI Center</a>, advised by
+          <a href="https://hildekuehne.github.io/">Prof. Dr. Hilde Kuehne</a> and co-supervised by
+          <a href="https://www.cvlibs.net/">Prof. Dr. Andreas Geiger</a>. I am also part of the fabulous
+          <a href="https://www.scholar-inbox.com/">Scholar Inbox</a> project, where I now serve as an advisor.
+        </p>
+        <p>
+          Previously, I was a research engineer in the
+          <a href="https://uni-tuebingen.de/en/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/autonomous-vision/home/">Autonomous Vision Group (AVG)</a>,
+          working on <a href="https://www.scholar-inbox.com/">Scholar Inbox</a>. I hold an
+          <a href="https://uni-tuebingen.de/en/study/finding-a-course/degree-programs-available/detail/course/machine-learning-master/">M.Sc. in Machine Learning</a>
+          from the University of Tübingen.
+        </p>
+        <p class="interests"><span class="label">Research interests</span> Looped models &middot; Multimodal learning &middot; Representation learning</p>
+        <ul class="links">
+          <li><a href="mailto:thealmightylion.madhav@gmail.com">Email</a></li>
+          <li><a href="https://scholar.google.com/citations?user=Att71I0AAAAJ&amp;hl=en">Google Scholar</a></li>
+          <li><a href="https://github.com/MadhavEsDios">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/madhav-iyengar-012398135">LinkedIn</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= NEWS ================= -->
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news">
+        <!-- Add new items at the TOP -->
+        <li><time datetime="2027-01">Jan 2027</time> <span>Joined the <a href="https://cvml.tuebingen.ai/">CVML group</a> as a PhD student.</span></li>
+        <li><time datetime="2025-07">Jul 2025</time> <span>Our paper <a href="https://aclanthology.org/2025.acl-demo.30/"><em>Scholar Inbox: Personalized Paper Recommendations for Scientists</em></a> appeared at <a href="https://2025.aclweb.org/">ACL 2025</a> (System Demonstrations) in Vienna.</span></li>
+        <li><time datetime="2024-04">Apr 2024</time> <span>Joined the <a href="https://uni-tuebingen.de/en/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/autonomous-vision/home/">Autonomous Vision Group (AVG)</a> as a research engineer, working on <a href="https://www.scholar-inbox.com/">Scholar Inbox</a>.</span></li>
+      </ul>
+    </section>
+
+    <!-- ================= PUBLICATIONS ================= -->
+    <section id="publications">
+      <h2>Publications</h2>
+      <!--
+        HOW TO ADD A PUBLICATION: edit publications.bib and run  python3 scripts/build_publications.py
+        (it rewrites everything between the PUBLICATIONS:START / END markers below; do not edit that block by hand).
+      -->
+      <div class="pubs">
+        <!-- PUBLICATIONS:START -->
+
+        <article class="pub">
+          <img class="thumb" src="assets/pubs/recurrent-vlms.webp" alt="" width="168" height="116" loading="lazy">
+          <div class="pub-body">
+            <h3>Retrofitting Recurrent Vision–Language Models from Pretrained Backbones</h3>
+            <p class="authors"><strong>Madhav Iyengar</strong>, Andreas Geiger, Hilde Kühne</p>
+            <p class="venue"><em>Preprint 2026 · under review</em></p>
+            <div class="pub-links">
+              <a href="recurrent-vlms/iyengar2026retrofitting.pdf">PDF</a> <a href="recurrent-vlms/">Project</a>
+              <details class="bibtex"><summary>BibTeX</summary>
+<pre>@article{iyengar2026retrofitting,
+  title   = {Retrofitting Recurrent Vision--Language Models from Pretrained Backbones},
+  author  = {Iyengar, Madhav and Geiger, Andreas and K{\&quot;u}hne, Hilde},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="thumb" src="assets/pubs/scholar-inbox.webp" alt="" width="168" height="116" loading="lazy">
+          <div class="pub-body">
+            <h3>Scholar Inbox: Personalized Paper Recommendations for Scientists</h3>
+            <p class="authors">Markus Flicke, Glenn Angrabeit, <strong>Madhav Iyengar</strong>, Vitalii Protsenko, Illia Shakun, Jovan Cicvaric, Bora Kargi, Haoyu He, Lukas Schuler, Lewin Scholz, Kavyanjali Agnihotri, Yong Cao, Andreas Geiger</p>
+            <p class="venue"><em>ACL 2025 · System Demonstrations</em></p>
+            <div class="pub-links">
+              <a href="https://aclanthology.org/2025.acl-demo.30.pdf">PDF</a> <a href="https://arxiv.org/abs/2504.08385">arXiv</a> <a href="https://www.scholar-inbox.com/">Project</a>
+              <details class="bibtex"><summary>BibTeX</summary>
+<pre>@inproceedings{flicke2025scholar,
+  title     = {Scholar Inbox: Personalized Paper Recommendations for Scientists},
+  author    = {Flicke, Markus and Angrabeit, Glenn and Iyengar, Madhav and Protsenko, Vitalii and Shakun, Illia and Cicvaric, Jovan and Kargi, Bora and He, Haoyu and Schuler, Lukas and Scholz, Lewin and Agnihotri, Kavyanjali and Cao, Yong and Geiger, Andreas},
+  booktitle = {Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 3: System Demonstrations)},
+  pages     = {307--317},
+  year      = {2025},
+  address   = {Vienna, Austria},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2025.acl-demo.30},
+  url       = {https://aclanthology.org/2025.acl-demo.30/}
+}</pre></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="thumb" src="assets/pubs/ood-traffic-signs.webp" alt="" width="168" height="116" loading="lazy">
+          <div class="pub-body">
+            <h3>Detecting Out-of-Distribution Traffic Signs</h3>
+            <p class="authors"><strong>Madhav Iyengar</strong>, Michael Opitz, Horst Bischof</p>
+            <p class="venue"><em>OAGM/ARW Joint Workshop 2019</em></p>
+            <div class="pub-links">
+              <a href="https://workshops.aapr.at/wp-content/uploads/2019/05/ARW-OAGM19_40.pdf">PDF</a>
+              <details class="bibtex"><summary>BibTeX</summary>
+<pre>@inproceedings{iyengar2019detecting,
+  title     = {Detecting Out-of-Distribution Traffic Signs},
+  author    = {Iyengar, Madhav and Opitz, Michael and Bischof, Horst},
+  booktitle = {Proceedings of the Joint Austrian Computer Vision and Robotics Workshop (ARW \&amp; OAGM)},
+  year      = {2019}
+}</pre></details>
+            </div>
+          </div>
+        </article>
+
+        <!-- PUBLICATIONS:END -->
+      </div>
+    </section>
+
+    <!-- ================= TEACHING ================= -->
+    <section id="teaching">
+      <h2>Teaching</h2>
+      <ul class="plain">
+        <li><strong>Teaching Assistant</strong>, Statistical Machine Learning (<a href="https://www.tml.cs.uni-tuebingen.de/">Prof. Dr. Ulrike von Luxburg</a>), <a href="https://uni-tuebingen.de/en/">University of Tübingen</a>, Summer 2022.
+          <span class="note">The course received the Best Teaching Award for the semester.</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year">2025</span> Madhav Iyengar &middot; <a href="?intro=1" id="replay-intro">Replay intro</a> &middot; <a href="#top">Back to top</a></p>
+    <p class="credit">Intro artwork: Naruto Shippuden &copy; Masashi Kishimoto / Shueisha / Studio Pierrot. Used as fan homage.</p>
+  </footer>
+
+  <script src="js/main.js?v=2026-10-14f" defer></script>
+  <script src="js/intro.js?v=2026-10-14f" defer></script>
+</body>
+</html>

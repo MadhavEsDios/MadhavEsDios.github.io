@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retrofitting Recurrent Vision–Language Models from Pretrained Backbones</title>
+  <meta name="description" content="The retrofitted model outperforms the unpruned baseline while storing 23.3% fewer language-model parameters.">
+  <meta name="author" content="Madhav Iyengar, Andreas Geiger, Hilde Kühne">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://madhavesdios.github.io/recurrent-vlms/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Retrofitting Recurrent Vision–Language Models from Pretrained Backbones">
+  <meta property="og:description" content="The retrofitted model outperforms the unpruned baseline while storing 23.3% fewer language-model parameters.">
+  <meta property="og:url" content="https://madhavesdios.github.io/recurrent-vlms/">
+  <meta property="og:image" content="https://madhavesdios.github.io/recurrent-vlms/fig1_overview.png">
+  <meta property="og:image:width" content="1667">
+  <meta property="og:image:height" content="706">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://madhavesdios.github.io/recurrent-vlms/fig1_overview.png">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../assets/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="manifest" href="../assets/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="top">
+    <header class="paper-head">
+      <h1>Retrofitting Recurrent Vision&ndash;Language Models from Pretrained Backbones</h1>
+      <p class="paper-authors"><a href="https://madhavesdios.github.io/">Madhav Iyengar</a><sup>1</sup> &middot; <a href="https://www.cvlibs.net/">Andreas Geiger</a><sup>1,2</sup> &middot; <a href="https://hildekuehne.github.io/">Hilde Kühne</a><sup>1</sup></p>
+      <p class="paper-affil"><sup>1</sup> University of Tübingen, Tübingen AI Center &middot; <sup>2</sup> KE:SAI</p>
+      <ul class="buttons" aria-label="Links">
+        <li><a class="btn" href="iyengar2026retrofitting.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.5V8h4.5L13 3.5zM8 12v1.6h8V12H8zm0 3.4V17h8v-1.6H8z"/></svg>Paper</a></li>
+        <li><span class="btn btn-off" role="link" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zM5 13.2v3.6c0 1.7 3.1 3.2 7 3.2s7-1.5 7-3.2v-3.6l-7 3.8-7-3.8z"/></svg>arXiv <small>(coming soon)</small></span></li>
+        <li><span class="btn btn-off" role="link" aria-disabled="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Code <small>(coming soon)</small></span></li>
+        <li><a class="btn" href="#bibtex-sec"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17.5V11c0-4 2.5-6.3 6-6.5v2.3C8.2 7 7 8.2 7 10h3.5v7.5H4zm10 0V11c0-4 2.5-6.3 6-6.5v2.3C18.2 7 17 8.2 17 10h3.5v7.5H14z"/></svg>BibTeX</a></li>
+      </ul>
+    </header>
+
+    <section id="abstract" class="abstract">
+      <h2>Abstract</h2>
+      <p>Recent work shows that depth recurrence can be retrofitted into pretrained language models. In this work, we adapt this paradigm for visual understanding, using depth recurrence to reduce the parameter footprint of a pretrained vision-language model (VLM). To this end, we prune layers from the language backbone of the VLM and loop over a subset of the remaining layers. At each step of the loop, a linear adapter merges the block's output with the token representations from the preceding layers and projects the fused representation back into the block. As the pruning impacts the original model performance, we propose a three-stage recovery training: first, we leverage a language-only pretraining to recover the performance of the language backbone, followed by an alignment of the vision-language projector, and a full fine-tuning of the model via visual instruction tuning. In the first and the last stage, we distill the outputs of the pretrained non-recurrent model into the recurrent model, which further improves the recovery. We evaluate the proposed approach on the TinyLLaVA-1.4B backbone without introducing any new vision-language data during retrofitting. Our experiments demonstrate that the retrofitted recurrent model outperforms the unpruned baseline trained with the same recovery data while storing 23.3% fewer language parameters. We further show that the proposed retrofitting recurrence outperforms the setup of converting a recurrent LM into a VLM on the same data. Additionally, our ablations show how design choices, such as the adapter between recurrences and a larger recurrent block, lead to the improved performance of our approach. Finally, we find that our proposed model gains on reasoning-oriented benchmarks, whereas its performance on basic visual understanding benchmarks remains on par with the baseline.</p>
+    </section>
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>Depth recurrence allocates test-time compute to iterating a block of layers rather than generating tokens, which keeps the context size and the memory overhead independent of the reasoning length. Recurrent VLMs have so far been built by adding a vision backbone to a recurrent language model or by looping an existing VLM without removing layers. We pursue a third option: we prune a block of intermediate layers from the language backbone of a pretrained VLM and loop over a subset of the remaining layers, converting the pretrained non-recurrent VLM into a recurrent one while reusing its weights. We refer to the result as retrofitted recurrent VLM (RR-VLM).</p>
+    </section>
+
+    <section id="method">
+      <h2>Method</h2>
+      <figure class="fig1">
+        <a href="fig1_overview.svg"><img src="fig1_overview.svg" alt="Overview of the prune-then-loop retrofit: the pretrained VLM on the left with pruned layers in grey, the retrofitted recurrent model on the right with prelude, adapter, recurrent block and coda." width="1667" height="706"></a>
+        <figcaption><b>Figure 1:</b> <b>Prune-then-loop retrofit.</b> Left: a pretrained VLM embeds the image as vision tokens, the prompt as text tokens and passes them through its language backbone. The layers marked in grey are pruned. Right: our retrofitting mechanism reuses the remaining layers. The prelude is executed once, and an adapter merges the prelude's output with the hidden state of the recurrent block initialized with noise. The adapter and recurrent block are applied repeatedly, with the coda used to decode to logits.</figcaption>
+      </figure>
+      <p>We prune six of the 22 layers of the language backbone and apply an eight-layer recurrent block six times. An adapter concatenates the block's output with the prelude's output, and a linear layer compresses it back to the original dimensionality. Since the surgery degrades the backbone and misaligns it with the vision-language projector, we retrain in three stages: text-only repair of the backbone (<i>S</i><sub>0</sub>), projector-only re-alignment (<i>S</i><sub>1</sub>) and fine-tuning on visual instruction data (<i>S</i><sub>2</sub>), with the pretrained model as distillation teacher in <i>S</i><sub>0</sub> and <i>S</i><sub>2</sub>. No new vision-language data is introduced.</p>
+    </section>
+
+    <section id="results">
+      <h2>Results</h2>
+      <p>On the TinyLLaVA-1.4B backbone, RR-VLM reaches 58.13 on average over nine benchmarks against 55.80 for the unpruned baseline trained on the same data, while storing 23.3% fewer language-model parameters. The pruned model without the loop reaches 52.41, so the gain is due to the recurrence itself. Retrofitting a pretrained VLM also outperforms adding a vision encoder to a pretrained recurrent language model (55.59). The gains concentrate on the reasoning-oriented benchmarks MMBench, RealWorldQA, SEED-Bench, AI2D and CV-Bench-2D, whereas basic visual understanding benchmarks stay on par.</p>
+
+<p class="tcaption" id="t1-cap"><b>Table 1:</b> <b>Comparison to baselines.</b> The retrofit outperforms the baselines on average over nine benchmarks with 23.3% fewer stored language-model parameters. Sec. 5.1 of the paper defines the models. RR-VLM denotes our retrofitted recurrent VLM <i>F</i><span class="ss"><sup>6</sup><sub>4/8/4</sub></span> of Sec. 3 of the paper and <i>F</i><sup>1</sup> the pruned single-pass model.</p>
+<div class="table-scroll" role="region" aria-label="Table 1, scrollable" tabindex="0">
+<table class="iclr t1" aria-labelledby="t1-cap">
+<thead>
+<tr><th scope="col"><b>Model</b></th><th scope="col"><b>LM (B)</b></th><th scope="col"><b>GQA</b></th><th scope="col"><b>POPE</b></th><th scope="col"><b>TVQA</b></th><th scope="col"><b>SQA</b></th><th scope="col"><b>MMB</b></th><th scope="col"><b>RWQA</b></th><th scope="col"><b>SEED</b></th><th scope="col"><b>AI2D</b></th><th scope="col"><b>CV2D</b></th><th scope="col"><b>Avg</b></th></tr>
+</thead>
+<tbody>
+<tr class="grp"><th colspan="12" scope="rowgroup"><i><i>Baseline</i></i></th></tr>
+<tr><th scope="row">TinyLLaVA-1.4B</th><td>1.10</td><td>57.6</td><td>85.1</td><td>46.7</td><td>59.6</td><td>49.7</td><td>45.4</td><td>54.1</td><td>39.4</td><td>38.6</td><td>52.91</td></tr>
+</tbody>
+<tbody>
+<tr class="grp"><th colspan="12" scope="rowgroup"><i><i>Baselines, no recurrence</i></i></th></tr>
+<tr><th scope="row">Baseline+(<i>S</i><sub>1</sub>, <i>S</i><sub>2</sub>)</th><td>1.10</td><td>59.9</td><td><b>86.9</b></td><td>45.5</td><td>57.8</td><td>55.6</td><td>47.3</td><td>59.8</td><td>41.3</td><td>43.4</td><td>55.27</td></tr>
+<tr><th scope="row">Baseline+(<i>S</i><sub>0</sub>, <i>S</i><sub>1</sub>, <i>S</i><sub>2</sub>)</th><td>1.10</td><td><b>60.4</b></td><td>86.7</td><td>47.3</td><td><b>60.2</b></td><td>55.5</td><td>46.4</td><td>60.4</td><td>43.2</td><td>42.2</td><td>55.80</td></tr>
+<tr><th scope="row">Baseline(pruned)+(<i>S</i><sub>0</sub>, <i>S</i><sub>1</sub>, <i>S</i><sub>2</sub>) (<i>F</i><sup>1</sup>)</th><td>0.84</td><td>58.0</td><td>86.1</td><td>37.7</td><td>50.3</td><td>48.6</td><td>47.6</td><td>58.3</td><td>38.1</td><td>47.1</td><td>52.41</td></tr>
+</tbody>
+<tbody>
+<tr class="grp"><th colspan="12" scope="rowgroup"><i><i>Converted recurrent LM (McLeish et al., 2025)</i></i></th></tr>
+<tr><th scope="row">Recurrent LM+ViT+(<i>S</i><sub>1</sub>, <i>S</i><sub>2</sub>)</th><td>0.84</td><td>58.8</td><td>86.3</td><td>41.5</td><td>52.5</td><td>52.7</td><td><b>50.6</b></td><td>60.7</td><td>43.6</td><td>53.7</td><td>55.59</td></tr>
+</tbody>
+<tbody>
+<tr class="grp"><th colspan="12" scope="rowgroup"><i><i>Pruned and looped (ours)</i></i></th></tr>
+<tr class="ours"><th scope="row">RR-VLM <i>F</i><span class="ss"><sup>6</sup><sub>4/8/4</sub></span></th><td>0.84</td><td>59.2</td><td>86.7</td><td><b>47.7</b></td><td>59.1</td><td><b>58.9</b></td><td>50.5</td><td><b>62.6</b></td><td><b>44.6</b></td><td><b>53.9</b></td><td><b>58.13</b></td></tr>
+</tbody>
+</table>
+</div>
+
+
+      <figure class="fig2">
+        <div class="fig-scroll"><a href="fig2_qualitative.png"><img src="fig2_qualitative.png" alt="Qualitative examples: one item from each of the four reasoning-oriented benchmarks with the answers of the pretrained model, the converted recurrent model and our model." width="2334" height="876" loading="lazy"></a></div>
+        <figcaption><b>Figure 2:</b> <b>Qualitative examples.</b> One item from each of the four reasoning-oriented benchmarks with the answers of the pretrained model, the converted recurrent model and our model below the image, a check mark denotes the correct option. The three trained non-recurrent baselines of Table 1 answer all four items wrongly.</figcaption>
+      </figure>
+
+
+      <details class="more"><summary>More qualitative examples (Figures 3 and 4)</summary>
+      <figure class="fig3">
+        <div class="fig-scroll"><a href="fig3_qualitative_rwqa_seed.png"><img src="fig3_qualitative_rwqa_seed.png" alt="Qualitative examples: two items from RealWorldQA and two from SEED-Bench with the answer of every model in Table 1." width="2059" height="1356" loading="lazy"></a></div>
+        <figcaption><b>Figure 3:</b> <b>Qualitative examples (RealWorldQA, SEED-Bench).</b> Two items per benchmark with the answer of every model in Table 1. A check mark denotes the correct option.</figcaption>
+      </figure>
+
+      <figure class="fig4">
+        <div class="fig-scroll"><a href="fig4_qualitative_ai2d_cv2d.png"><img src="fig4_qualitative_ai2d_cv2d.png" alt="Qualitative examples: two items from AI2D and two from CV-Bench-2D with the answer of every model in Table 1." width="2059" height="1356" loading="lazy"></a></div>
+        <figcaption><b>Figure 4:</b> <b>Qualitative examples (AI2D, CV-Bench-2D).</b> Two items per benchmark with the answer of every model in Table 1. A check mark denotes the correct option.</figcaption>
+      </figure>
+      </details>
+    </section>
+
+    <section id="ablations">
+      <h2>Ablations</h2>
+      <ul class="abl-list">
+        <li><b>Training stages:</b> removing the text-only stage <i>S</i><sub>0</sub> costs 3.68 pp, removing the alignment stage <i>S</i><sub>1</sub> costs 1.28 pp (Table 2).</li>
+        <li><b>Layer allocation, adapter and looping:</b> at equal compute a larger recurrent block is better, 4/8/4 beats 6/4/6 by 3.19 pp; the linear adapter is the best adapter; looping the whole block beats per-layer looping by 2.83 pp at <i>r</i>=2 and 5.40 pp at <i>r</i>=6 (Table 3).</li>
+        <li><b>Distillation:</b> distilling from the pretrained model in <i>S</i><sub>2</sub> improves the retrofitted model by 1.48 pp and the unpruned baseline by only 0.25 pp (Table 4).</li>
+        <li><b>Training depth:</b> a model trained at a fixed depth only works at that depth; a model trained with sampled recurrence works from <i>r</i>=2 to <i>r</i>=16 but does not improve beyond the trained depth (Table 5).</li>
+        <li><b>KV-cache sharing:</b> with <i>n</i>=3 cache copies the cache shrinks to 1.45× the base model's at a cost of 0.75 pp, with one copy to 0.727× at a cost of 5.43 pp (Table 6).</li>
+      </ul>
+
+      <details class="more"><summary>Ablation tables (Tables 2 to 6)</summary>
+<p class="tcaption" id="t2-cap"><b>Table 2:</b> <b>Training stages.</b> We remove single stages of the training strategy of Sec. 3.2 of the paper from our best performing setting (4/8/4, <i>r</i>=6, 60B <i>S</i><sub>0</sub> budget), each stage with its distillation term. The first row repeats the unpruned baseline of Table 1, which is trained with the full strategy. Avg is the mean of the nine columns to its left.</p>
+<div class="table-scroll" role="region" aria-label="Table 2, scrollable" tabindex="0">
+<table class="iclr t2" aria-labelledby="t2-cap">
+<thead>
+<tr><th scope="col"><b>Model and training stages</b></th><th scope="col"><b>GQA</b></th><th scope="col"><b>POPE</b></th><th scope="col"><b>TVQA</b></th><th scope="col"><b>SQA</b></th><th scope="col"><b>MMB</b></th><th scope="col"><b>RWQA</b></th><th scope="col"><b>SEED</b></th><th scope="col"><b>AI2D</b></th><th scope="col"><b>CV2D</b></th><th scope="col"><b>Avg</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">Baseline+(<i>S</i><sub>0</sub>, <i>S</i><sub>1</sub>, <i>S</i><sub>2</sub>)</th><td>60.4</td><td>86.7</td><td>47.3</td><td>60.2</td><td>55.5</td><td>46.4</td><td>60.4</td><td>43.2</td><td>42.2</td><td>55.80</td></tr>
+</tbody>
+<tbody>
+<tr><th scope="row">RR-VLM, <i>S</i><sub>1</sub>, <i>S</i><sub>2</sub></th><td>59.6</td><td>86.5</td><td>45.5</td><td>54.6</td><td>52.1</td><td>44.1</td><td>61.0</td><td>40.0</td><td>46.6</td><td>54.45</td></tr>
+<tr><th scope="row">RR-VLM, <i>S</i><sub>0</sub>, <i>S</i><sub>2</sub></th><td>59.3</td><td>86.6</td><td>47.0</td><td>57.1</td><td>56.7</td><td>48.8</td><td>62.4</td><td>42.7</td><td>51.2</td><td>56.85</td></tr>
+<tr class="ours"><th scope="row">RR-VLM, <i>S</i><sub>0</sub>, <i>S</i><sub>1</sub>, <i>S</i><sub>2</sub> (ours)</th><td>59.2</td><td>86.7</td><td>47.7</td><td>59.1</td><td>58.9</td><td>50.5</td><td>62.6</td><td>44.6</td><td>53.9</td><td><b>58.13</b></td></tr>
+</tbody>
+</table>
+</div>
+<p class="tcaption" id="t3-cap"><b>Table 3:</b> <b>Ablations.</b> Each table changes one setting of the model named in its header and the best value is in bold. All tables (a), (b) and (c) use the 7.5B <i>S</i><sub>0</sub> budget without text distillation.</p>
+<div class="subtables" role="group" aria-labelledby="t3-cap">
+<table class="iclr sub">
+<thead>
+<tr><th colspan="2" scope="col"><b>(a) Layer allocation, 56 layers</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">6/4/6, <i>r</i>=11</th><td class="r">52.56</td></tr>
+<tr><th scope="row">4/6/4, <i>r</i>=8</th><td class="r">54.15</td></tr>
+<tr><th scope="row">4/8/4, <i>r</i>=6</th><td class="r"><b>55.75</b></td></tr>
+</tbody>
+</table>
+<table class="iclr sub">
+<thead>
+<tr><th colspan="2" scope="col"><b>(b) Adapter, 4/6/4, <i>r</i>=6</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row"><i>A</i><sub>∅</sub> (none)</th><td class="r">54.29</td></tr>
+<tr><th scope="row"><i>A</i><sub>sc</sub></th><td class="r">52.98</td></tr>
+<tr><th scope="row"><i>A</i><sub>pc</sub></th><td class="r">53.76</td></tr>
+<tr><th scope="row"><i>A</i><sub>lin</sub></th><td class="r"><b>55.02</b></td></tr>
+</tbody>
+</table>
+<table class="iclr sub">
+<thead>
+<tr><th colspan="2" scope="col"><b>(c) Looping variant, 4/6/4</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">per-layer looping, <i>r</i>=2</th><td class="r">52.19</td></tr>
+<tr><th scope="row">per-layer looping, <i>r</i>=6</th><td class="r">49.62</td></tr>
+<tr><th scope="row">block looping, <i>r</i>=6</th><td class="r"><b>55.02</b></td></tr>
+</tbody>
+</table>
+</div>
+<p class="tcaption" id="t4-cap"><b>Table 4:</b> <b>Knowledge distillation.</b> We evaluate the impact of the knowledge distillation in <i>S</i><sub>2</sub>. Each row states on which batches the distillation term is applied and with which weight <i>λ</i> and temperature <i>τ</i>. All rows use the 60B <i>S</i><sub>0</sub> budget and the 4/8/4 layer allocation and share the same <i>S</i><sub>0</sub>, which applies the distillation term with <i>λ</i>=0.5 at <i>τ</i>=2. The first two rows give the unpruned baseline of Table 1 with and without the <i>S</i><sub>2</sub> distillation.</p>
+<table class="iclr t4" aria-labelledby="t4-cap">
+<thead>
+<tr><th scope="col"><b>Knowledge distillation</b></th><th scope="col" class="r"><b>Avg</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">Baseline+(<i>S</i><sub>0</sub>, <i>S</i><sub>1</sub>, <i>S</i><sub>2</sub>) (Table 1)</th><td class="r">55.80</td></tr>
+<tr><th scope="row" class="ind">without <i>S</i><sub>2</sub> distillation</th><td class="r">55.55</td></tr>
+</tbody>
+<tbody>
+<tr><th scope="row">RR-VLM, no <i>S</i><sub>2</sub> distillation</th><td class="r">56.65</td></tr>
+<tr><th scope="row">RR-VLM, VL-KD only, <i>λ</i>=0.25</th><td class="r">56.88</td></tr>
+<tr><th scope="row" class="ind">+ text-KD, <i>τ</i>=2</th><td class="r">57.24</td></tr>
+<tr><th scope="row" class="ind">+ text-KD, <i>τ</i>=1 (ours)</th><td class="r"><b>58.13</b></td></tr>
+</tbody>
+</table>
+<p class="tcaption" id="t5-cap"><b>Table 5:</b> <b>Fixed against sampled training depth.</b> Both models use the 4/8/4 layer allocation and the 7.5B <i>S</i><sub>0</sub> budget and differ only in the number of recurrences during training, fixed at <i>r</i>=6 or sampled with mean 6. The columns give GQA accuracy when the model is evaluated with <i>r</i> passes. Values marked <sup>†</sup> come from runs that were stopped early because the output had degenerated.</p>
+<div class="table-scroll" role="region" aria-label="Table 5, scrollable" tabindex="0">
+<table class="iclr t5" aria-labelledby="t5-cap">
+<thead>
+<tr><td></td><th colspan="7" scope="col" class="cm"><b>GQA at test-time depth <i>r</i></b></th></tr>
+<tr><th scope="col"><b>Training depth</b></th><th scope="col" class="r"><b><i>r</i>=2</b></th><th scope="col" class="r"><b><i>r</i>=4</b></th><th scope="col" class="r"><b><i>r</i>=5</b></th><th scope="col" class="r"><b><i>r</i>=6</b></th><th scope="col" class="r"><b><i>r</i>=8</b></th><th scope="col" class="r"><b><i>r</i>=12</b></th><th scope="col" class="r"><b><i>r</i>=16</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">sampled, r̄=6 (<i>F</i><sup>r̃</sup>)</th><td class="r">57.8</td><td class="r">59.3</td><td class="r">59.5</td><td class="r">59.5</td><td class="r">59.4</td><td class="r">59.1</td><td class="r">59.3</td></tr>
+<tr class="ours"><th scope="row">fixed, <i>r</i>=6 (<i>F</i><sup><i>r</i></sup>, our setting)</th><td class="r">0.0<sup>†</sup></td><td class="r">0.0<sup>†</sup></td><td class="r">43.1</td><td class="r">59.7</td><td class="r">50.9</td><td class="r">4.2<sup>†</sup></td><td class="r">0.0<sup>†</sup></td></tr>
+</tbody>
+</table>
+</div>
+<p class="tcaption" id="t6-cap"><b>Table 6:</b> <b>KV-cache sharing across passes at inference.</b> The table analyses the KV cache per token as a multiple of the base model’s cache. The model keeps only <i>n</i> copies of the cache instead of one per pass. The six passes use these copies in turn, so with <i>n</i>=1 every pass shares one cache, and <i>n</i>=6 is our model without sharing.</p>
+<div class="table-scroll" role="region" aria-label="Table 6, scrollable" tabindex="0">
+<table class="iclr t6" aria-labelledby="t6-cap">
+<thead>
+<tr><th scope="col"><b>Setting</b></th><th scope="col" class="r"><b>Cache</b></th><th scope="col"><b>GQA</b></th><th scope="col"><b>POPE</b></th><th scope="col"><b>TVQA</b></th><th scope="col"><b>SQA</b></th><th scope="col"><b>MMB</b></th><th scope="col"><b>RWQA</b></th><th scope="col"><b>SEED</b></th><th scope="col"><b>AI2D</b></th><th scope="col"><b>CV2D</b></th><th scope="col" class="r"><b>Avg</b></th></tr>
+</thead>
+<tbody>
+<tr><th scope="row"><i>n</i>=1 (last pass)</th><td class="r">0.727×</td><td>49.1</td><td>86.7</td><td>18.6</td><td>59.3</td><td>57.0</td><td>47.7</td><td>61.2</td><td>42.2</td><td>52.5</td><td class="r">52.70</td></tr>
+<tr><th scope="row"><i>n</i>=2</th><td class="r">1.09×</td><td>56.5</td><td>86.7</td><td>31.5</td><td>59.2</td><td>58.6</td><td>49.7</td><td>62.6</td><td>44.1</td><td>53.8</td><td class="r">55.85</td></tr>
+<tr><th scope="row"><i>n</i>=3</th><td class="r">1.45×</td><td>58.6</td><td>86.7</td><td>41.8</td><td>59.4</td><td>58.6</td><td>50.5</td><td>62.6</td><td>44.4</td><td>53.9</td><td class="r">57.38</td></tr>
+<tr class="ours"><th scope="row"><i>n</i>=6 (ours)</th><td class="r">2.55×</td><td>59.2</td><td>86.7</td><td>47.7</td><td>59.1</td><td>58.9</td><td>50.5</td><td>62.6</td><td>44.6</td><td>53.9</td><td class="r">58.13</td></tr>
+</tbody>
+</table>
+</div>
+      </details>
+    </section>
+
+    <section id="bibtex-sec">
+      <h2>BibTeX</h2>
+<pre class="bib-pre">@article{iyengar2026retrofitting,
+  title   = {Retrofitting Recurrent Vision--Language Models from Pretrained Backbones},
+  author  = {Iyengar, Madhav and Geiger, Andreas and K{\"u}hne, Hilde},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+    </section>
+
+    <section id="acknowledgments">
+      <h2>Acknowledgments</h2>
+      <p class="ack">This work was funded by the Federal Ministry of Research, Technology and Space (BMFTR) under the project XEI, FKZ: 16IS24079A. The authors gratefully acknowledge the Gauss Centre for Supercomputing e.V. (www.gauss-centre.eu) for providing computing time on the JUPITER Booster at Jülich Supercomputing Centre (JSC) under the project token-compression, and the computing resources provided by the ML Cloud of the Tübingen AI Center. We are grateful to Jonas Geiping and Takeru Miyato for insightful discussions on looped models.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Madhav Iyengar &middot; <a href="https://madhavesdios.github.io/">Homepage</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,316 @@
+/* ===== Theme colours (edit here) ===== */
+:root, [data-theme="light"] {
+  --bg: #f6f1e7;          /* warm ivory */
+  --bg-alt: #ede5d6;
+  --text: #1c1714;
+  --muted: #6e6359;
+  --accent: #7b1626;      /* oxblood */
+  --border: #ddd2bf;
+  --nav-bg: rgba(246, 241, 231, .9);
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --maxw: 780px;
+}
+/* Dark theme, "Tsukuyomi" */
+[data-theme="dark"] {
+  --bg: #0d0a0b;
+  --bg-alt: #161112;
+  --text: #e6dfda;
+  --muted: #9d938d;
+  --accent: #cf3a4c;
+  --border: #2a2123;
+  --nav-bg: rgba(13, 10, 11, .88);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+html.intro-active { overflow: hidden; }
+/* very faint paper grain (the same noise tile as the intro; set by js/main.js) */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .04; mix-blend-mode: multiply; background-size: 128px 128px; background-image: var(--grain, none); }
+[data-theme="dark"] body::before { opacity: .03; mix-blend-mode: overlay; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--font-serif); font-size: 17px; line-height: 1.7; font-optical-sizing: auto; font-variant-numeric: oldstyle-nums; font-feature-settings: "kern", "liga", "onum";
+  -webkit-font-smoothing: antialiased;
+  transition: background .3s, color .3s; overflow-x: hidden;
+}
+main, .nav-inner, .site-footer { max-width: var(--maxw); margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.2; margin: 0 0 .5rem; font-weight: 600; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.1rem); }
+h2 { font-size: 2.05rem; font-weight: 600; letter-spacing: .005em; padding-bottom: .35rem; border-bottom: 1px solid var(--border); margin-bottom: 1.3rem; position: relative; }
+/* tiny crow motif at the end of each section rule */
+/* tiny crow ornament at the end of each section rule (a real element, inserted by js/main.js; clickable easter egg) */
+.crow-orn { position: absolute; right: 0; bottom: -9px; width: 26px; height: 13px; background-color: var(--bg); cursor: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cpath fill='%23b3001b' d='M30 14C24 6 12 2 0 6c10 2 16 6 20 12-6-2-12-1-16 2 10 0 18 2 26 4 8-2 16-4 26-4-4-3-10-4-16-2 4-6 10-10 20-12C48 2 36 6 30 14z'/%3E%3C/svg%3E");
+  background-size: 22px 11px; background-repeat: no-repeat; background-position: center; will-change: transform; }
+h3 { font-size: 1.25rem; }
+strong { font-weight: 600; }
+p { margin: 0 0 .8rem; }
+section { padding: 3.2rem 0 .5rem; }
+a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); text-underline-offset: .22em; transition: text-decoration-color .2s, text-decoration-thickness .2s, color .2s; }
+a:hover { text-decoration-color: var(--accent); text-decoration-thickness: 2px; color: color-mix(in srgb, var(--accent) 80%, var(--text)); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+ul { padding: 0; margin: 0; list-style: none; }
+
+/* ===== Nav ===== */
+.site-nav { position: sticky; top: 0; z-index: 50; background: var(--nav-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.nav-inner { display: flex; align-items: center; gap: 1rem; min-height: 56px; position: relative; }
+.brand { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--text); text-decoration: none; margin-right: auto; }
+.nav-links { display: flex; gap: .3rem; }
+.nav-links a { position: relative; display: block; padding: .35rem .6rem; color: var(--text); text-decoration: none; font-family: var(--font-sans); font-size: .8rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-links a.active { box-shadow: inset 0 -2px 0 var(--accent); }
+/* crow flourish: a tiny crow lifts off on hover */
+.nav-links a::before {
+  content: ""; position: absolute; left: 50%; top: -4px; width: 16px; height: 8px; margin-left: -8px; opacity: 0; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cpath fill='%23b3001b' d='M30 14C24 6 12 2 0 6c10 2 16 6 20 12-6-2-12-1-16 2 10 0 18 2 26 4 8-2 16-4 26-4-4-3-10-4-16-2 4-6 10-10 20-12C48 2 36 6 30 14z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.nav-links a:hover::before { animation: crow-off .7s ease-out; }
+@keyframes crow-off { 0% { opacity: 0; transform: translate(0, 6px) scale(.6); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(14px, -16px) scale(1) rotate(-12deg); } }
+.theme-toggle, .nav-toggle, .replay-btn { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; width: 36px; height: 36px; cursor: pointer; display: grid; place-items: center; padding: 0; }
+.theme-toggle:hover, .nav-toggle:hover { color: var(--accent); border-color: var(--accent); }
+/* replay-the-intro button: a small Sharingan that turns on hover */
+.replay-btn { color: var(--text); text-decoration: none; }
+.replay-btn:hover { color: var(--accent); border-color: var(--accent); }
+.replay-btn svg { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.replay-btn:hover svg, .replay-btn:focus-visible svg { transform: rotate(240deg); }
+@media (prefers-reduced-motion: reduce) { .replay-btn svg { transition: none; } }
+.nav-toggle { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.nav-toggle span { display: block; width: 16px; height: 2px; background: currentColor; }
+
+@media (max-width: 680px) {
+  .nav-toggle { display: flex; }
+  .js .nav-links { display: none; position: absolute; top: 56px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: .5rem 16px; }
+  .js .nav-links.open { display: flex; }
+  .nav-links a { padding: .7rem 0; }
+  .nav-links a.active { box-shadow: none; } /* the full-width underline is too heavy in the dropdown; the accent colour is enough */
+  .nav-links { flex-wrap: wrap; } /* without JS: links simply wrap */
+  html:not(.js) .nav-inner { flex-wrap: wrap; }
+  /* phones: one row, always. The name may shrink a little; the three controls become light round icons
+     grouped on the right (Sharingan replay, theme, then the menu at the far edge) */
+  .js .nav-inner { flex-wrap: nowrap; gap: .15rem; }
+  .brand { min-width: 0; font-size: clamp(1.12rem, 5.6vw, 1.4rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: auto; padding-right: .4rem; }
+  .theme-toggle, .nav-toggle, .replay-btn { flex: none; width: 40px; height: 40px; border: 0; border-radius: 50%; -webkit-tap-highlight-color: transparent; transition: background-color .2s, color .2s; }
+  .theme-toggle:hover, .nav-toggle:hover, .replay-btn:hover, .theme-toggle:active, .nav-toggle:active, .replay-btn:active,
+  .nav-toggle[aria-expanded="true"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  .replay-btn { order: 1; } .theme-toggle { order: 2; } .nav-toggle { order: 3; margin-right: -6px; }
+  .theme-toggle svg, .replay-btn svg { width: 19px; height: 19px; }
+  .nav-toggle span { width: 18px; height: 1.5px; border-radius: 1px; }
+}
+@media (max-width: 340px) { .theme-toggle, .nav-toggle, .replay-btn { width: 34px; } .js .nav-inner { gap: 0; } } /* very narrow phones: more room for the name */
+
+/* ===== Hero banner (full-bleed picture with the name over its lower part; one layout for both themes, only colours differ) ===== */
+.hero-banner { position: relative; height: clamp(300px, 58vh, 620px); overflow: hidden; background: #0a0506; }
+.hero-media { position: absolute; inset: 0; transform-origin: 50% 45%; animation: hero-drift 20s ease-in-out infinite alternate; }
+.hero-imgs { position: absolute; inset: 0; transform-origin: 50% 45%; }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .6s ease; }
+.hero-img-sun { object-position: var(--pos-sun, 50% 40%); opacity: 0; transition: opacity var(--sun-fade, 2s) ease-in-out; }
+.hero-img-sun.is-on { opacity: 1; }
+.hero-img-night { object-position: var(--pos-night, 50% 50%); opacity: 0; filter: brightness(1.15) contrast(1.05); } /* gentle lift: the picture is very dark */
+[data-theme="dark"] .hero-img-sun, [data-theme="dark"] .hero-img-sun.is-on { opacity: 0; }
+[data-theme="dark"] .hero-img-night { opacity: 1; }
+[data-theme="dark"] .hero-glow { display: none; }
+/* red glow over the sun picture's eyes (positions and size set by js/main.js); a very slow, subtle pulse */
+.hero-glow { position: absolute; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #ff2a2a 0%, rgba(255, 42, 42, .75) 18%, rgba(200, 0, 20, .28) 45%, rgba(200, 0, 20, 0) 70%);
+  animation: hero-glow-pulse 3s ease-in-out infinite alternate; }
+@keyframes hero-glow-pulse { from { opacity: .55; } to { opacity: .9; } }
+@keyframes hero-drift { to { transform: scale(1.04); } }
+/* the bottom of the picture melts into the page colour (light: parchment, dark: near-black) */
+.hero-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, transparent 38%, rgba(246,241,231,.5) 60%, rgba(246,241,231,.9) 80%, #f6f1e7 96%); }
+[data-theme="dark"] .hero-shade { background: linear-gradient(to bottom, rgba(13,10,11,.25) 0%, rgba(13,10,11,.55) 60%, var(--bg) 100%); }
+/* the name: same place in both themes (centred; right-aligned on wide screens); light = dark ink with an ivory glow, dark = white */
+.hero-title { position: absolute; left: 0; right: 0; bottom: clamp(1rem, 3vh, 1.8rem); text-align: center; color: #1c1714; padding: 0 16px; }
+.hero-title h1 { font-family: var(--font-display); font-size: clamp(2.6rem, 7.4vw, 4.4rem); font-weight: 600; letter-spacing: .01em; margin: 0 0 .4rem; color: #1c1714; text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9); }
+.hero-title p { margin: 0; font-family: var(--font-sans); font-size: .74rem; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: #5a4f46; text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9); }
+[data-theme="dark"] .hero-title { color: #fff; }
+[data-theme="dark"] .hero-title h1 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.4); }
+[data-theme="dark"] .hero-title p { color: rgba(255,255,255,.88); text-shadow: 0 1px 12px rgba(0,0,0,.7); }
+/* >=900px: taller banner so Itachi's whole seated pose shows; the drift keeps the feet in view */
+@media (min-width: 900px) {
+  .hero-banner { height: clamp(380px, 74vh, 800px); }
+  .hero-media, .hero-imgs { transform-origin: 50% 92%; }
+}
+/* >=1100px: the name goes to the right of the picture's centre figure (picture scales with width, so hug the right edge rather than the column) */
+@media (min-width: 1100px) {
+  .hero-title { bottom: clamp(1.6rem, 6vh, 3.6rem); text-align: right; padding: 0 clamp(24px, 4vw, 80px); }
+  .hero-title h1 { font-size: clamp(2.6rem, 4.4vw, 4.4rem); text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9), 0 0 44px rgba(246,241,231,.75); } /* wider ivory halo over the statue */
+  .hero-title p { letter-spacing: .22em; }
+  [data-theme="dark"] .hero-title h1 { text-shadow: 0 2px 16px rgba(0,0,0,.7), 0 0 40px rgba(0,0,0,.6); }
+}
+@media (prefers-reduced-motion: reduce) { .hero-media, .hero-glow { animation: none; } }
+
+/* ===== Hero ===== */
+.hero { display: flex; gap: 2rem; align-items: flex-start; padding-top: 0; }
+.photo { width: 200px; height: 266px; border-radius: 14px; object-fit: cover; flex: none; border: 4px solid var(--bg); box-shadow: 0 0 0 2px var(--accent), 0 0 18px color-mix(in srgb, var(--accent) 25%, transparent); position: relative; z-index: 3; }
+#about { scroll-margin-top: 40px; }
+.photo-ph { display: grid; place-items: center; background: var(--bg-alt); color: var(--muted); font-size: .9rem; }
+.hero-text p { margin-bottom: .95rem; }
+.hero-text p:first-child { margin-top: -.4rem; } /* first line's cap height lines up with the top of the photo */
+.interests { margin-top: 1.2rem; padding-top: .9rem; border-top: 1px solid var(--border); font-size: .98rem; color: var(--muted); }
+.interests .label, .note { font-family: var(--font-sans); }
+.interests .label { display: block; font-size: .7rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; margin-bottom: .15rem; color: var(--accent); font-variant-caps: normal; }
+.links { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; margin-top: 1.1rem; font-family: var(--font-sans); font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.links a { text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+.links a:hover { border-bottom-color: var(--accent); }
+@media (max-width: 600px) { .hero { flex-direction: column; align-items: center; text-align: center; } .links { justify-content: center; } .photo { width: 150px; height: 200px; } .hero-text p:first-child { margin-top: 0; } }
+
+/* ===== News ===== */
+.news li { display: flex; gap: 1.2rem; padding: .45rem 0; }
+.news time { flex: none; width: 5.2rem; color: var(--muted); font-family: var(--font-sans); font-size: .76rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum", "lnum"; padding-top: .42rem; }
+@media (max-width: 480px) { .news li { flex-direction: column; gap: 0; } .news time { padding-top: 0; } }
+
+/* ===== Publications ===== */
+.pub { display: flex; gap: 1.2rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); }
+.pub:first-child { padding-top: 0; }
+.pub:last-child { border-bottom: 0; }
+.thumb { flex: none; width: 168px; height: 116px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border); background: var(--bg-alt); margin-top: .2rem; }
+.pub-body { min-width: 0; }
+.pub h3 { font-family: var(--font-serif); font-size: 1.12rem; font-weight: 600; line-height: 1.35; margin-bottom: .3rem; font-feature-settings: "kern", "liga"; }
+.authors { margin: 0 0 .2rem; font-family: var(--font-sans); font-size: .8rem; line-height: 1.55; letter-spacing: .01em; color: var(--muted); }
+.authors strong { color: var(--text); font-weight: 600; }
+.venue { margin: 0 0 .35rem; font-size: .98rem; font-style: italic; color: var(--text); }
+.venue em { font-style: italic; }
+.pub-links { margin: 0; font-family: var(--font-sans); font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.pub-links > a, .bibtex summary { display: inline-block; text-decoration: none; margin-right: 1rem; padding-bottom: 1px; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+.pub-links > a:hover, .bibtex summary:hover { border-bottom-color: var(--accent); }
+.bibtex { display: inline-block; margin: 0; }
+.bibtex[open] { display: block; margin-top: .5rem; }
+.bibtex summary { cursor: pointer; color: var(--accent); list-style: none; margin-right: 0; }
+.bibtex summary::-webkit-details-marker { display: none; }
+pre { overflow-x: auto; background: var(--bg-alt); border: 1px solid var(--border); padding: .8rem .9rem; border-radius: 4px; font-size: .74rem; line-height: 1.55; letter-spacing: 0; text-transform: none; font-weight: 400; color: var(--text); margin: .6rem 0 0; }
+[data-theme="dark"] .thumb { filter: brightness(.9); } /* the figures are light; take the glare off on the dark page */
+@media (max-width: 560px) { .pub { flex-direction: column; gap: .7rem; } .thumb { width: 100%; height: auto; aspect-ratio: 400 / 280; max-height: 220px; object-position: 50% 0; margin-top: 0; } } /* phones: full width above the text */
+
+/* ===== Teaching ===== */
+.plain li { padding: .3rem 0; }
+.note { display: block; margin-top: .15rem; font-size: .8rem; letter-spacing: .01em; color: var(--muted); }
+
+/* ===== Footer ===== */
+.site-footer { margin-top: 3rem; padding-top: 1.5rem; padding-bottom: 2rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-family: var(--font-sans); font-size: .78rem; letter-spacing: .03em; }
+.site-footer p { margin: 0 0 .4rem; }
+.site-footer a { white-space: nowrap; }
+.credit { font-size: .7rem; opacity: .7; }
+
+/* ===== Intro overlay (content built by js/intro.js) ===== */
+.intro-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: #000; overflow: hidden; }
+html.intro-active .intro-overlay, html.intro-flash .intro-overlay { display: block; }
+.intro-layer { position: absolute; inset: 0; }
+.intro-seq { transform-origin: 50% 50%; will-change: transform, opacity; }
+.intro-canvas { width: 100%; height: 100%; display: block; }
+/* portrait phones: the picture is a letterboxed strip; soft dark edges make it read as cinematic */
+.intro-vignette { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,.65), transparent 22%, transparent 78%, rgba(0,0,0,.65)),
+              radial-gradient(ellipse at center, transparent 62%, rgba(0,0,0,.5) 100%); }
+/* ----- Title card (film-style): near-black field, a deep-crimson glow, grain and vignette ----- */
+.intro-eye { background: #070405; will-change: opacity; overflow: hidden; }
+.eye-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 38%, rgba(90, 6, 16, .75), transparent 70%); pointer-events: none; }
+.eye-vig { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .7) 100%); pointer-events: none; }
+.intro-grain { position: absolute; inset: 0; background-size: 128px 128px; opacity: .09; mix-blend-mode: overlay; pointer-events: none; }
+.eye-stage { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(.4rem, 1.5vh, 1rem);
+  padding: 0 16px 4vh; transform: translateY(-3vh); z-index: 2; }
+/* drawn Mangekyo: smaller, finely textured, with a soft static bloom behind it */
+.eye-wrap { position: relative; width: clamp(170px, 34vmin, 340px); aspect-ratio: 1; will-change: transform, opacity; }
+.eye-wrap::before { content: ""; position: absolute; inset: -38%; border-radius: 50%; background: radial-gradient(circle, rgba(190, 14, 36, .38), transparent 62%); z-index: -1; }
+.eye-wrap svg { width: 100%; height: 100%; display: block; }
+/* real eye footage: borderless; its edges are feathered into the black by a mask in the canvas */
+.eye-band { position: relative; width: min(1200px, 100vw); aspect-ratio: 2.39 / 1; will-change: transform, opacity; }
+.eye-band-media { width: 100%; height: 100%; display: block; }
+.eye-copy { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 92vw; }
+.eye-text { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.5rem, 3.6vw, 2.9rem); letter-spacing: .07em;
+  color: #ebe3d9; margin: 0; line-height: 1.25; text-wrap: balance; }
+.eye-band.bw .eye-band-media, .eye-wrap.bw svg { filter: grayscale(1) contrast(1.15); } /* static class, toggled (never animated) */
+.eye-jit { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+.eye-jit-split { mix-blend-mode: screen; }
+.eye-text .w { display: inline-block; will-change: transform, opacity; }
+.intro-shard { position: absolute; inset: 0; }
+.intro-crows { pointer-events: none; }
+.intro-defs { position: absolute; width: 0; height: 0; }
+/* Crow: one frame of the 8-frame raven sprite strip (frames 256x380, facing right).
+   --w = on-screen frame width, --ratio = frame height / width (from CONFIG.crowFrame), --flap = flap period, --phase = random start point (all set in JS). */
+.intro-crow { --w: 256px; position: absolute; left: 0; top: 0; visibility: hidden; will-change: transform, opacity;
+  width: var(--w); height: calc(var(--w) * var(--ratio, 1.484));
+  background: url(../assets/intro/crow/crow-side.png) 0 0 / calc(var(--w) * 8) 100% no-repeat;
+  animation: crow-flap var(--flap, .667s) steps(8) infinite; animation-delay: calc(var(--flap, .667s) * var(--phase, 0)); }
+@keyframes crow-flap { to { background-position: calc(var(--w) * -8) 0; } }
+/* tiny red Sharingan eye on a few crows (the anime crows have red eyes) */
+/* A little static blur on a big foreground crow suggests depth (rendered once, then just moved). */
+.intro-crow.crow-mid { filter: blur(1px); }
+.intro-crow-nb { position: absolute; left: 0; top: 0; visibility: hidden; will-change: transform, opacity; }
+.nb-img { display: block; width: 100%; height: auto; transform-origin: 50% 55%; animation: nb-flutter .3s ease-in-out infinite alternate;
+  filter: brightness(.75) contrast(1.15); } /* near-black silhouette like the anime crows; calm ~3 Hz wingbeat */
+@keyframes nb-flutter { from { transform: translateY(-2px) scaleY(1); } to { transform: translateY(2px) scaleY(.95); } }
+.nb-blur { filter: blur(2px); } /* static blur on the rushing-at-camera crows only */
+.nb-blur .nb-img { animation: none; } /* big blurred crows skip the wingbeat */
+.intro-feather { position: absolute; left: 0; top: 0; visibility: hidden; will-change: transform, opacity; }
+.intro-feather img { height: 100%; width: auto; display: block; }
+/* loading spinner: a tiny spinning tomoe on black, only shown if loading is slow */
+.intro-spinner { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+.intro-spinner svg { width: 100%; height: 100%; animation: intro-spin 1.1s linear infinite; }
+@keyframes intro-spin { to { transform: rotate(360deg); } }
+/* skip control: invisible (any click or key skips); still reachable for keyboard and screen-reader users */
+.intro-skip { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* (reduced motion: the head script in index.html only skips the AUTOMATIC intro; an explicit replay, ?intro=1, still plays) */
+
+/* ===== Homepage feathers (a few drift through the banner; a puff comes out of the theme button) ===== */
+.hero-feathers { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.fx-feather { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform, opacity; }
+.fx-puff { position: fixed; z-index: 60; }
+@media (prefers-reduced-motion: reduce) { .hero-feathers, .fx-puff { display: none; } }
+[data-theme="dark"] .hero-feathers .fx-feather { filter: brightness(2.2) contrast(.9); } /* charcoal feathers need a lift on the dark banner */
+
+/* ===== Feather cursor (mouse / fine pointers only) ===== */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: auto; cursor: url("../assets/cursor-feather.png") 4 4, auto; cursor: image-set(url("../assets/cursor-feather.png") 1x, url("../assets/cursor-feather@2x.png") 2x) 4 4, auto; }
+  a, button, summary, [role="button"] { cursor: pointer; }
+  p, h1, h2, h3, li, pre, time { cursor: text; }
+  input, textarea, select { cursor: revert; }
+}
+/* the "sharingan" easter egg: a spinning Mangekyo follows the mouse and the cursor is hidden for a few seconds */
+html.sharingan-mode, html.sharingan-mode * { cursor: none !important; }
+.sharingan-cursor { position: fixed; left: 0; top: 0; width: 28px; height: 28px; margin: -14px 0 0 -14px; pointer-events: none; z-index: 99999; animation: intro-spin .9s linear infinite; }
+.sharingan-cursor svg { width: 100%; height: 100%; display: block; }
+
+/* carry the page's paper grain over the banner's fade, so there is no visible edge where the banner ends */
+.hero-shade::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .04; mix-blend-mode: multiply; background-size: 128px 128px; background-image: var(--grain, none);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 40%, #000 90%); mask-image: linear-gradient(to bottom, transparent 40%, #000 90%); }
+
+/* ===== 404 page (404.html): centred block with a faint Sharingan behind the number ===== */
+.nf { position: relative; min-height: calc(100vh - 57px); min-height: calc(100svh - 57px); display: grid; place-items: center; text-align: center; padding-top: 1rem; padding-bottom: 8vh; }
+.nf-eye { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; color: var(--accent); opacity: .08; }
+[data-theme="dark"] .nf-eye { opacity: .13; }
+.nf-eye svg { width: min(86vw, 440px); height: auto; margin-bottom: calc(8vh - 1rem); animation: intro-spin 120s linear infinite; }
+.nf-body { position: relative; }
+.nf-code { font-size: clamp(6rem, 26vw, 11.5rem); font-weight: 500; line-height: .95; letter-spacing: .02em; color: var(--accent); margin: 0 0 .5rem; }
+.nf-line { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: clamp(1.45rem, 4.4vw, 2rem); line-height: 1.3; margin: 0 0 .5rem; }
+.nf-sub { margin: 0; color: var(--muted); font-size: .98rem; text-wrap: balance; }
+.nf-links { justify-content: center; margin-top: 1.6rem; }
+@media (prefers-reduced-motion: reduce) { .nf-eye svg { animation: none; } }
+
+/* ===== Print: a plain, black-on-white CV-like page ===== */
+@media print {
+  .intro-overlay, .site-nav, .theme-toggle, .replay-btn, .hero-media, .hero-shade, .hero-feathers, .intro-crow, .intro-crow-nb, .intro-feather,
+  .fx-puff, .sharingan-sw, .sharingan-cursor, .crow-orn, .site-footer .credit, #replay-intro, .thumb, .photo, body::before, .bibtex { display: none !important; }
+  html, body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+  * { background: transparent !important; box-shadow: none !important; text-shadow: none !important; animation: none !important; }
+  h1, h2, h3, body { font-family: Georgia, "Times New Roman", serif; color: #000 !important; }
+  h2 { border-bottom: 1px solid #000; }
+  .hero-banner { height: auto; overflow: visible; background: none; }
+  .hero-title { position: static; color: #000 !important; padding: 0 0 .5rem; text-align: left; }
+  .hero-title h1 { color: #000 !important; font-size: 26pt; margin: 0; }
+  .hero-title p { color: #000 !important; letter-spacing: .1em; }
+  .hero { padding-top: 0; display: block; }
+  a { color: #000 !important; text-decoration: underline; }
+  .pub-links > a::after, .links a::after { content: " (" attr(href) ")"; font-size: 9pt; color: #333; }
+  .venue, .authors, .interests, .note, .news time, .site-footer { color: #333 !important; }
+  .hero-banner { padding: 0 16px; max-width: var(--maxw); margin: 0 auto; }
+  .pub { break-inside: avoid; page-break-inside: avoid; }
+  .site-footer { border: 0; }
+}
+
+/* narrow phones: keep the banner subtitle on one line */
+@media (max-width: 600px) { .hero-title p { font-size: .66rem; letter-spacing: .18em; } }
+@media (max-width: 360px) { .hero-title p { font-size: .58rem; letter-spacing: .1em; } }
+/* phones: long bio paragraphs read better left-aligned (photo, interests and links stay centred) */
+@media (max-width: 600px) { .hero-text p { text-align: left; } .hero-text .interests, .hero-text .interests p, .hero-text .links { text-align: center; } }

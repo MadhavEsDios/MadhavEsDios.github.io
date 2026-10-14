@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://madhavesdios.github.io/sitemap.xml
