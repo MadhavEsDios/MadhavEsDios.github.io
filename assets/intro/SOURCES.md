@@ -100,3 +100,8 @@ Source: sun-candidates/02 (1600x1200 steam ws screenshot), 16:9 crop rows 110..1
 ## Update 16: Nano Banana art (user-generated)
 Banners: web/hero-throne(-3840) and web/hero-sun(-3840) now come from nb2/o83cjso83cjso83c.jpg (throne, 2752x1536 -> 16:9 centre crop 2731x1536, Real-ESRGAN animevideov3 x2, 3840x2160; iris pixels boosted) and nb2/36s1cp36s1cp36s1.jpg (doorway). Old: hero-throne-nbclose, hero-sun-painted-eyes. Alt: source-frames/throne-banner-candidates/nb-zoomout-dark-alt.jpg. Pointing redraw kept at source-frames/nb-pointing-redraw.jpg (not installed).
 Cutouts: crow/nb-crow-1..7.png (+webp max 640) from c85a0wc85a0wc85a.jpg, crow/nb-feather-1..8.webp (max 256) from b9701hb9701hb970.jpg. Alpha from min-channel ramp + eroded solid core, colour un-premultiplied against white at edges. Contact sheets: source-frames/nb-contact-*.jpg.
+
+## Update 17: banner colour grades (2026-10-16)
+Both banners re-graded from the lossless 3840 PNGs (source-frames/throne-banner-candidates/nb-throne-3840.png, nb-sun-3840.png) so they sit in the page palette; scripts + before/after sheets in source-frames/banner-grade-2026-10-16/.
+- hero-throne (dark): "Tsukuyomi mono": OKLab grade, non-reds to warm wine-black / stone / bone, reds kept and pulled toward crimson (soft hue mask), so crimson is the only hue. `grade_throne.py --variant mono`.
+- hero-sun (light): "two-ink on ivory": darks to umber-oxblood, glow to gold-cream near the paper tone, red eyes kept. `grade_sun.py` variant B (ink).

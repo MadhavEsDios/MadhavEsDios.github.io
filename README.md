@@ -9,7 +9,7 @@ Optional files to add: `assets/photo.jpg` (profile photo), `assets/cv.pdf`, `ass
 
 - **News**: add an `<li>` at the top of the list in the News section.
 - **Publications**: edit `publications.bib`, then run `python3 scripts/build_publications.py` (stdlib only). Custom fields `pdf`, `code`, `arxiv`, `project`, `video`, `thumb`, `selected`; set `MY_NAME` in the script to bold your name.
-- **Colours / fonts**: CSS variables at the top of `css/style.css`.
+- **Colours / fonts**: CSS variables at the top of `css/style.css`; the fonts (EB Garamond, Cormorant Garamond) are self-hosted subsets in `fonts/` (licence: `fonts/OFL.txt`).
 
 ## Run locally
 ```
