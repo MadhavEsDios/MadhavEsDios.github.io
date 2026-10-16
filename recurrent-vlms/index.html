@@ -26,13 +26,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2026-10-16b">
 </head>
 <body>
+  <nav class="topbar" aria-label="Site"><a href="/" aria-label="Madhav Iyengar, homepage"><span aria-hidden="true">&larr;</span> Madhav Iyengar</a></nav>
   <main id="top">
     <header class="paper-head">
       <h1>Retrofitting Recurrent Vision&ndash;Language Models from Pretrained Backbones</h1>
-      <p class="paper-authors"><a href="https://madhavesdios.github.io/">Madhav Iyengar</a><sup>1</sup> &middot; <a href="https://www.cvlibs.net/">Andreas Geiger</a><sup>1,2</sup> &middot; <a href="https://hildekuehne.github.io/">Hilde Kühne</a><sup>1</sup></p>
+      <p class="paper-authors"><span class="au"><a href="https://madhavesdios.github.io/">Madhav Iyengar</a><sup>1</sup></span> &middot; <span class="au"><a href="https://www.cvlibs.net/">Andreas Geiger</a><sup>1,2</sup></span> &middot; <span class="au"><a href="https://hildekuehne.github.io/">Hilde Kühne</a><sup>1</sup></span></p>
       <p class="paper-affil"><sup>1</sup> University of Tübingen, Tübingen AI Center &middot; <sup>2</sup> KE:SAI</p>
       <ul class="buttons" aria-label="Links">
         <li><a class="btn" href="iyengar2026retrofitting.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.5V8h4.5L13 3.5zM8 12v1.6h8V12H8zm0 3.4V17h8v-1.6H8z"/></svg>Paper</a></li>
@@ -94,19 +95,19 @@
 
 
       <figure class="fig2">
-        <div class="fig-scroll"><a href="fig2_qualitative.png"><img src="fig2_qualitative.png" alt="Qualitative examples: one item from each of the four reasoning-oriented benchmarks with the answers of the pretrained model, the converted recurrent model and our model." width="2334" height="876" loading="lazy"></a></div>
+        <div class="fig-scroll"><a href="fig2_qualitative.webp"><img src="fig2_qualitative.webp" alt="Qualitative examples: one item from each of the four reasoning-oriented benchmarks with the answers of the pretrained model, the converted recurrent model and our model." width="2334" height="876" loading="lazy"></a></div>
         <figcaption><b>Figure 2:</b> <b>Qualitative examples.</b> One item from each of the four reasoning-oriented benchmarks with the answers of the pretrained model, the converted recurrent model and our model below the image, a check mark denotes the correct option. The three trained non-recurrent baselines of Table 1 answer all four items wrongly.</figcaption>
       </figure>
 
 
       <details class="more"><summary>More qualitative examples (Figures 3 and 4)</summary>
       <figure class="fig3">
-        <div class="fig-scroll"><a href="fig3_qualitative_rwqa_seed.png"><img src="fig3_qualitative_rwqa_seed.png" alt="Qualitative examples: two items from RealWorldQA and two from SEED-Bench with the answer of every model in Table 1." width="2059" height="1356" loading="lazy"></a></div>
+        <div class="fig-scroll"><a href="fig3_qualitative_rwqa_seed.webp"><img src="fig3_qualitative_rwqa_seed.webp" alt="Qualitative examples: two items from RealWorldQA and two from SEED-Bench with the answer of every model in Table 1." width="2059" height="1356" loading="lazy"></a></div>
         <figcaption><b>Figure 3:</b> <b>Qualitative examples (RealWorldQA, SEED-Bench).</b> Two items per benchmark with the answer of every model in Table 1. A check mark denotes the correct option.</figcaption>
       </figure>
 
       <figure class="fig4">
-        <div class="fig-scroll"><a href="fig4_qualitative_ai2d_cv2d.png"><img src="fig4_qualitative_ai2d_cv2d.png" alt="Qualitative examples: two items from AI2D and two from CV-Bench-2D with the answer of every model in Table 1." width="2059" height="1356" loading="lazy"></a></div>
+        <div class="fig-scroll"><a href="fig4_qualitative_ai2d_cv2d.webp"><img src="fig4_qualitative_ai2d_cv2d.webp" alt="Qualitative examples: two items from AI2D and two from CV-Bench-2D with the answer of every model in Table 1." width="2059" height="1356" loading="lazy"></a></div>
         <figcaption><b>Figure 4:</b> <b>Qualitative examples (AI2D, CV-Bench-2D).</b> Two items per benchmark with the answer of every model in Table 1. A check mark denotes the correct option.</figcaption>
       </figure>
       </details>

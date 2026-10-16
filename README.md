@@ -27,7 +27,7 @@ Sharingan glow over the sun picture's eyes is off by default: set `data-glow="on
 
 ## The intro animation
 Plays on a first visit only (remembered in `localStorage` as `genjutsu-seen`, set as soon as it starts); with
-"reduce motion" enabled it never plays automatically (an explicit replay still does). Any click, key, or touch skips it (there is no visible skip button; a hidden one remains for keyboard and screen-reader users).
+"reduce motion" enabled it never plays automatically (an explicit replay still does). Any click, key, or touch skips it (a small "Skip intro" hint fades in bottom-right after 1.5 s; never in preview mode).
 Story (about 6 s): Itachi points at you, his body dissolves into crows, the Mangekyo Sharingan card (black and white, then a glitchy jitter into colour) with "You are already under my genjutsu.", then the glass shatters and the homepage is revealed.
 
 - **Replay**: add `?intro=1` to the URL (http://localhost:8000/?intro=1) or use the Sharingan button in the nav / "Replay intro" in the footer. The intro counts as seen only once it actually plays (or is skipped), so a visit where the frames load too slowly does not use it up.

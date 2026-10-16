@@ -265,8 +265,17 @@ html.intro-active .intro-overlay, html.intro-flash .intro-overlay { display: blo
 .intro-spinner { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; }
 .intro-spinner svg { width: 100%; height: 100%; animation: intro-spin 1.1s linear infinite; }
 @keyframes intro-spin { to { transform: rotate(360deg); } }
-/* skip control: invisible (any click or key skips); still reachable for keyboard and screen-reader users */
-.intro-skip { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* skip hint: small text bottom-right, hidden at first (js/intro.js adds .show-skip ~1.5 s in). Any click or key skips anyway.
+   Opacity comes from a one-shot keyframe + the class, not a transition, so the timeline's inline opacity fade at the shatter is not fought. */
+.intro-skip { position: absolute; z-index: 10; right: max(2px, calc(env(safe-area-inset-right) - 18px)); bottom: max(4px, calc(env(safe-area-inset-bottom) - 16px));
+  min-width: 44px; min-height: 44px; padding: 16px 18px; border: 0; background: none; cursor: pointer; opacity: 0; -webkit-tap-highlight-color: transparent;
+  font-family: var(--font-sans); font-size: .72rem; font-weight: 500; line-height: 1; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap;
+  color: rgba(255, 255, 255, .5); text-shadow: 0 0 8px rgba(0, 0, 0, .6); text-decoration: underline transparent 1px; text-underline-offset: 6px;
+  transition: color .2s, text-decoration-color .2s; }
+.intro-overlay.show-skip .intro-skip { opacity: 1; animation: intro-skip-in .6s ease; }
+@keyframes intro-skip-in { from { opacity: 0; } }
+.intro-skip:hover, .intro-skip:focus-visible { color: rgba(255, 255, 255, .9); text-decoration-color: rgba(255, 255, 255, .45); }
+.intro-skip:focus-visible { outline: 2px solid rgba(255, 255, 255, .85); outline-offset: -6px; border-radius: 2px; }
 /* (reduced motion: the head script in index.html only skips the AUTOMATIC intro; an explicit replay, ?intro=1, still plays) */
 
 /* ===== Homepage feathers (a few drift through the banner; a puff comes out of the theme button) ===== */

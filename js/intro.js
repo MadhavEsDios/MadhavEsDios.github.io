@@ -124,7 +124,7 @@
   var previewAt = (playing && atMatch && isFinite(parseFloat(atMatch[1]))) ? parseFloat(atMatch[1]) : null;
   var preview = previewAt !== null;
 
-  var gsap = null, tl = null, finished = false, safetyTimer = null, loadTimer = null, spinnerTimer = null;
+  var gsap = null, tl = null, finished = false, safetyTimer = null, loadTimer = null, spinnerTimer = null, skipHintTimer = null;
   var started = false, failed = false, assetsReady = false, frames = [], eyeImgs = [], eyeFailed = false; // loading state, see go()
   var prevFocus = document.activeElement;
   var skipBtn = overlay.querySelector('.intro-skip');
@@ -248,7 +248,7 @@
   function cleanup() {
     if (finished && !overlay.parentNode) return;
     finished = true;
-    clearTimeout(safetyTimer); clearTimeout(loadTimer); clearTimeout(spinnerTimer);
+    clearTimeout(safetyTimer); clearTimeout(loadTimer); clearTimeout(spinnerTimer); clearTimeout(skipHintTimer);
     try { if (tl) tl.kill(); } catch (e) {}
     removeSkipListeners();
     root.classList.remove('intro-active', 'intro-flash');
@@ -265,7 +265,7 @@
     if (finished) return;
     finished = true;
     removeSkipListeners();
-    clearTimeout(safetyTimer); clearTimeout(loadTimer); clearTimeout(spinnerTimer);
+    clearTimeout(safetyTimer); clearTimeout(loadTimer); clearTimeout(spinnerTimer); clearTimeout(skipHintTimer);
     if (!gsap) { finished = false; cleanup(); return; }
     try {
       if (tl) tl.kill();
@@ -851,6 +851,8 @@
     stripIntroParams();
     addSkipListeners();
     if (skipBtn) { try { skipBtn.focus({ preventScroll: true }); } catch (e) {} }
+    // a small "Skip intro" hint fades in bottom-right after 1.5 s (also while a slow load shows the spinner); never in preview mode
+    skipHintTimer = setTimeout(function () { overlay.classList.add('show-skip'); }, 1500);
   }
   if (playing) {
     spinnerTimer = setTimeout(showSpinner, CONFIG.spinnerAfter);
