@@ -69,7 +69,7 @@
   // Active = the last section whose top is above ~35% of the viewport height.
   // At the very top About is active; at the very bottom the last section is (unless a clicked section is pinned).
   var navLinks = document.querySelectorAll('.nav-links a');
-  var sections = document.querySelectorAll('main section[id]');
+  var sections = document.querySelectorAll('#about, main section[id]'); // About sits above <main>, in the first screen
   var ticking = false;
   // A section reached by clicking a nav link (or opened via a #link) stays highlighted until the visitor scrolls
   // by hand: the page is short, so jumping to e.g. News already reaches the bottom, where the last section would win.

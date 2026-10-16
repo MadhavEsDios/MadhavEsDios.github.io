@@ -68,7 +68,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700&text=%E5%B9%BB%E8%A1%93&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2026-10-16b">
+  <link rel="stylesheet" href="css/style.css?v=2026-10-16c">
 
   <script type="application/ld+json">
 {
@@ -76,7 +76,7 @@
     "@type": "ProfilePage",
     "url": "https://madhavesdios.github.io/",
     "name": "Madhav Iyengar",
-    "dateModified": "2026-10-16T16:00:00+02:00",
+    "dateModified": "2026-10-16T19:00:00+02:00",
     "mainEntity": {
       "@type": "Person",
       "@id": "https://madhavesdios.github.io/#person",
@@ -153,13 +153,17 @@
     </nav>
   </header>
 
+  <!-- First screen: the banner and the About block share one flex column (css/style.css, ".first-screen"), so on desktop the banner takes whatever height
+       the window has left after the nav and the About block. -->
+  <div class="first-screen">
+
   <!-- Full-bleed hero banner (assets/intro/web/hero.webp). To change the picture, replace that file (and web-sm/hero.webp). -->
   <!-- Hero banner. Light theme: the picture(s) listed in data-sun-images (one picture = no loop; with two, a slow loop; data-pos-sun-list = their object-positions:
        data-hold seconds each, data-fade seconds crossfade; no loop with reduced motion). Dark "Tsukuyomi" theme: the throne
        (assets/intro/web/hero-throne.webp). data-pos-sun / data-pos-night = object-position of each.
        Optional red glow over the sun picture's eyes: data-glow="on" plus
        data-eye-left / data-eye-right ("x,y" as fractions of the first picture). -->
-  <div class="hero-banner" data-glow="off" data-eye-left="0.453,0.197" data-eye-right="0.554,0.207" data-pos-sun="50% 18%" data-pos-sun-list="50% 18%" data-pos-night="50% 75%"
+  <div class="hero-banner" data-glow="off" data-eye-left="0.453,0.197" data-eye-right="0.554,0.207" data-pos-sun="50% 40%" data-pos-sun-list="50% 40%" data-pos-night="50% 45%"
           data-sun-images="assets/intro/web/hero-sun.webp" data-hold="7" data-fade="2.5">
     <div class="hero-media"><div class="hero-imgs">
       <img class="hero-img hero-img-night" alt="" width="2560" height="1440" decoding="async">
@@ -202,9 +206,9 @@
     })();
   </script>
 
-  <main>
-    <!-- ================= ABOUT ================= -->
-    <section id="about" class="hero">
+  <!-- ================= ABOUT (part of the first screen, so it sits outside <main>) ================= -->
+  <section id="about" class="hero">
+    <div class="hero-row">
       <img class="photo" src="assets/photo.jpg?v=4" alt="Photo of Madhav Iyengar" width="600" height="800"
            onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'photo photo-ph',textContent:'Photo',ariaLabel:'Photo placeholder'}))">
       <div class="hero-text">
@@ -222,16 +226,21 @@
           <a href="https://uni-tuebingen.de/en/study/finding-a-course/degree-programs-available/detail/course/machine-learning-master/">M.Sc. in Machine Learning</a>
           from the University of Tübingen.
         </p>
-        <p class="interests"><span class="label">Research interests</span> Looped models &middot; Multimodal learning &middot; Representation learning</p>
-        <ul class="links">
-          <li><a href="mailto:thealmightylion.madhav@gmail.com">Email</a></li>
-          <li><a href="https://scholar.google.com/citations?user=Att71I0AAAAJ&amp;hl=en">Google Scholar</a></li>
-          <li><a href="https://github.com/MadhavEsDios">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/madhav-iyengar-012398135">LinkedIn</a></li>
-        </ul>
       </div>
-    </section>
+    </div>
+    <div class="hero-foot">
+      <p class="interests"><span class="label">Research interests</span> Looped models &middot; Multimodal learning &middot; Representation learning</p>
+      <ul class="links">
+        <li><a href="mailto:thealmightylion.madhav@gmail.com">Email</a></li>
+        <li><a href="https://scholar.google.com/citations?user=Att71I0AAAAJ&amp;hl=en">Google Scholar</a></li>
+        <li><a href="https://github.com/MadhavEsDios">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/madhav-iyengar-012398135">LinkedIn</a></li>
+      </ul>
+    </div>
+  </section>
+  </div><!-- /.first-screen -->
 
+  <main>
     <!-- ================= NEWS ================= -->
     <section id="news">
       <h2>News</h2>
@@ -335,7 +344,7 @@
     <p class="credit">Intro artwork: Naruto Shippuden &copy; Masashi Kishimoto / Shueisha / Studio Pierrot. Used as fan homage.</p>
   </footer>
 
-  <script src="js/main.js?v=2026-10-16a" defer></script>
+  <script src="js/main.js?v=2026-10-16c" defer></script>
   <script src="js/intro.js?v=2026-10-16b" defer></script>
 </body>
 </html>

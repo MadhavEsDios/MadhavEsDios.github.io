@@ -41,7 +41,7 @@ body {
   -webkit-font-smoothing: antialiased;
   transition: background .3s, color .3s; overflow-x: hidden;
 }
-main, .nav-inner, .site-footer { max-width: var(--maxw); margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+main, .nav-inner, .site-footer, #about { max-width: var(--maxw); margin: 0 auto; padding-left: 16px; padding-right: 16px; }
 h1, h2, h3 { font-family: var(--font-display); line-height: 1.2; margin: 0 0 .5rem; font-weight: 600; text-wrap: balance; }
 h1 { font-size: clamp(2.2rem, 7vw, 3.1rem); }
 h2 { font-size: 2.05rem; font-weight: 600; letter-spacing: .005em; padding-bottom: .35rem; border-bottom: 1px solid var(--border); margin-bottom: 1.3rem; position: relative; }
@@ -130,47 +130,47 @@ ul { padding: 0; margin: 0; list-style: none; }
 /* the bottom of the picture melts into the page colour (light: parchment, dark: near-black) */
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, transparent 38%, color-mix(in srgb, var(--bg) 50%, transparent) 60%, color-mix(in srgb, var(--bg) 90%, transparent) 80%, var(--bg) 96%); }
 [data-theme="dark"] .hero-shade { background: linear-gradient(to bottom, rgba(13,10,11,.25) 0%, rgba(13,10,11,.55) 60%, var(--bg) 100%); }
-/* the name: same place in both themes (centred; right-aligned on wide screens); light = dark ink with an ivory glow, dark = white */
-.hero-title { position: absolute; left: 0; right: 0; bottom: clamp(1rem, 3vh, 1.8rem); text-align: center; color: #1c1714; padding: 0 16px; }
-.hero-title h1 { font-family: var(--font-display); font-size: clamp(2.6rem, 7.4vw, 4.4rem); font-weight: 600; letter-spacing: .01em; margin: 0 0 .4rem; color: #1c1714; text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9); }
+/* the name: centred at the foot of the picture, the same place in both themes; light = dark ink with an ivory glow, dark = white over a soft dark scrim */
+.hero-title { position: absolute; left: 0; right: 0; bottom: clamp(1rem, 3vh, 1.8rem); text-align: center; color: #1c1714; padding: 0 16px; isolation: isolate; --scrim: rgba(246, 241, 231, .8); }
+.hero-title::before { content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: -2rem; height: calc(100% + 2.6rem); width: min(100%, 54rem); margin: 0 auto; pointer-events: none; background: radial-gradient(ellipse at 50% 62%, var(--scrim) 0%, transparent 70%); }
+.hero-title h1 { font-family: var(--font-display); font-size: clamp(2.6rem, 7.4vw, 4.4rem); font-weight: 600; letter-spacing: .01em; margin: 0 0 .4rem; color: #1c1714; text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9), 0 0 44px rgba(246,241,231,.75); }
 .hero-title p { margin: 0; font-family: var(--font-sans); font-size: .74rem; font-weight: 500; letter-spacing: .32em; text-transform: uppercase; color: #5a4f46; text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9); }
-[data-theme="dark"] .hero-title { color: #fff; }
-[data-theme="dark"] .hero-title h1 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.4); }
-[data-theme="dark"] .hero-title p { color: rgba(255,255,255,.88); text-shadow: 0 1px 12px rgba(0,0,0,.7); }
-/* >=900px: taller banner so Itachi's whole seated pose shows; the drift keeps the feet in view */
+[data-theme="dark"] .hero-title { color: #fff; --scrim: rgba(6, 4, 5, .62); }
+[data-theme="dark"] .hero-title h1 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.7), 0 0 40px rgba(0,0,0,.6); }
+[data-theme="dark"] .hero-title p { color: rgba(255,255,255,.9); text-shadow: 0 1px 12px rgba(0,0,0,.8); }
+/* >=900px: the first screen is one flex column, banner + About block. The About block keeps its natural height and the banner takes
+   whatever the window has left after the nav (57px), within 300-760px, so nothing is cut by the fold and no script measures anything */
 @media (min-width: 900px) {
-  /* the first screen = banner + full photo + start of the bio: the banner takes what is left of the window
-     after the nav (57px), the photo (--photo-h) and the gaps above and below it (44px) */
-  :root { --photo-h: clamp(200px, 27svh, 266px); }
-  .hero-banner { height: clamp(380px, calc(100vh - 57px - var(--photo-h) - 44px), 800px); height: clamp(380px, calc(100svh - 57px - var(--photo-h) - 44px), 800px); }
-  #about.hero { padding-top: 20px; }
-  .hero-media, .hero-imgs { transform-origin: 50% 92%; }
-}
-/* >=1100px: the name goes to the right of the picture's centre figure (picture scales with width, so hug the right edge rather than the column) */
-@media (min-width: 1100px) {
-  .hero-title { bottom: clamp(1.6rem, 6vh, 3.6rem); text-align: right; padding: 0 clamp(24px, 4vw, 80px); }
-  .hero-title h1 { font-size: clamp(2.6rem, 4.4vw, 4.4rem); text-shadow: 0 0 18px rgba(246,241,231,.9), 0 0 4px rgba(246,241,231,.9), 0 0 44px rgba(246,241,231,.75); } /* wider ivory halo over the statue */
-  .hero-title p { letter-spacing: .22em; }
-  [data-theme="dark"] .hero-title h1 { text-shadow: 0 2px 16px rgba(0,0,0,.7), 0 0 40px rgba(0,0,0,.6); }
+  .first-screen { display: flex; flex-direction: column; min-height: calc(100vh - 57px); min-height: calc(100svh - 57px); }
+  .hero-banner { flex: 1 1 auto; height: auto; min-height: 300px; max-height: 760px; }
+  .hero-media, .hero-imgs { transform-origin: 50% 35%; } /* the drift grows the picture from about the figure's head, so the head stays clear of the name */
+  .hero-title h1 { font-size: clamp(3.8rem, 6.4vw, 5.8rem); line-height: 1.1; letter-spacing: .015em; }
+  .hero-title p { font-size: .84rem; letter-spacing: .3em; }
+  #about { flex: none; width: 100%; padding-top: 20px; padding-bottom: 1.1rem; }
+  :root { --photo-h: clamp(232px, 31svh, 266px); }
 }
 @media (prefers-reduced-motion: reduce) { .hero-media, .hero-glow { animation: none; } }
 
 /* ===== Hero ===== */
-.hero { display: flex; gap: 2rem; align-items: flex-start; padding-top: 0; }
+.hero { padding-top: 0; }
+.hero-row { display: flex; gap: 2rem; align-items: flex-start; }
 .photo { width: 200px; height: 266px; border-radius: 14px; object-fit: cover; flex: none; border: 4px solid var(--bg); box-shadow: 0 0 0 2px var(--accent), 0 12px 22px -12px rgba(28, 23, 20, .4); position: relative; z-index: 3; } /* the ring is the frame; the lift underneath is a real offset shadow, not a coloured halo */
 [data-theme="dark"] .photo { box-shadow: 0 0 0 2px var(--accent), 0 12px 26px -10px rgba(0, 0, 0, .9); }
-#about { scroll-margin-top: 40px; }
-@media (min-width: 900px) { .photo { height: var(--photo-h); width: calc(var(--photo-h) * .75); } } /* scales with the window height (see the banner) */
+#about { scroll-margin-top: 100vh; } /* part of the first screen: its links scroll to the very top (the banner), not to this block */
+@media (min-width: 900px) { .photo { height: var(--photo-h); width: calc(var(--photo-h) * .75); } } /* scales a little with the window height */
 .photo-ph { display: grid; place-items: center; background: var(--bg-alt); color: var(--muted); font-size: .9rem; }
 .hero-text p { margin-bottom: .95rem; }
 .hero-text p:first-child { margin-top: -.4rem; } /* first line's cap height lines up with the top of the photo */
-.interests { margin-top: 1.2rem; padding-top: .9rem; border-top: 1px solid var(--border); font-size: .98rem; color: var(--muted); }
+.hero-text p:last-child { margin-bottom: 0; }
+/* under the photo + bio, across the full width: research interests, then the links */
+.hero-foot { margin-top: 1.1rem; padding-top: .8rem; border-top: 1px solid var(--border); }
+.interests { margin: 0; font-size: .98rem; color: var(--muted); }
 .interests .label, .note { font-family: var(--font-sans); }
-.interests .label { display: block; font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .15rem; color: var(--accent-ink); font-variant-caps: normal; }
-.links { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; margin-top: 1.1rem; font-family: var(--font-sans); font-size: .8rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.interests .label { display: inline-block; margin-right: .9rem; font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-ink); font-variant-caps: normal; }
+.links { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; margin-top: .5rem; font-family: var(--font-sans); font-size: .8rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
 .links a { text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); transition: border-bottom-color .2s, color .2s; }
 .links a:hover { border-bottom-color: var(--accent); }
-@media (max-width: 600px) { .hero { flex-direction: column; align-items: center; text-align: center; } .links { justify-content: center; } .photo { width: 150px; height: 200px; } .hero-text p:first-child { margin-top: 0; } }
+@media (max-width: 600px) { .hero-row { flex-direction: column; align-items: center; text-align: center; } .hero-foot { text-align: center; } .interests .label { display: block; margin: 0 0 .15rem; } .links { justify-content: center; margin-top: 1.1rem; } .photo { width: 150px; height: 200px; } .hero-text p:first-child { margin-top: 0; } }
 
 /* ===== News ===== */
 .news li { display: flex; align-items: baseline; gap: 1.2rem; padding: .45rem 0; }
@@ -315,7 +315,7 @@ html.sharingan-mode, html.sharingan-mode * { cursor: none !important; }
 
 /* ===== Print: a plain, black-on-white CV-like page ===== */
 @media print {
-  .intro-overlay, .site-nav, .theme-toggle, .replay-btn, .hero-media, .hero-shade, .hero-feathers, .intro-crow, .intro-crow-nb, .intro-feather,
+  .intro-overlay, .site-nav, .theme-toggle, .replay-btn, .hero-media, .hero-shade, .hero-title::before, .hero-feathers, .intro-crow, .intro-crow-nb, .intro-feather,
   .fx-puff, .sharingan-sw, .sharingan-cursor, .crow-orn, .site-footer .credit, #replay-intro, .thumb, .photo, body::before, .bibtex { display: none !important; }
   html, body { background: #fff !important; color: #000 !important; font-size: 11pt; }
   * { background: transparent !important; box-shadow: none !important; text-shadow: none !important; animation: none !important; }
@@ -325,7 +325,11 @@ html.sharingan-mode, html.sharingan-mode * { cursor: none !important; }
   .hero-title { position: static; color: #000 !important; padding: 0 0 .5rem; text-align: left; }
   .hero-title h1 { color: #000 !important; font-size: 26pt; margin: 0; }
   .hero-title p { color: #000 !important; letter-spacing: .1em; }
-  .hero { padding-top: 0; display: block; }
+  .hero-row { display: block; }
+  .hero-text p:first-child { margin-top: .6rem; }
+  .first-screen { display: block; min-height: 0; }
+  .hero-banner { flex: none; min-height: 0; max-height: none; }
+  #about { padding-top: 0; }
   a { color: #000 !important; text-decoration: underline; }
   .pub-links > a::after, .links a::after { content: " (" attr(href) ")"; font-size: 9pt; color: #333; }
   .venue, .authors, .interests, .note, .news time, .site-footer { color: #333 !important; }
@@ -347,4 +351,4 @@ html.sharingan-mode, html.sharingan-mode * { cursor: none !important; }
 @media (max-width: 380px) { .hero-title p { letter-spacing: .1em; } }
 @media (max-width: 340px) { .hero-title p { letter-spacing: .03em; } }
 /* phones: long bio paragraphs read better left-aligned (photo, interests and links stay centred) */
-@media (max-width: 600px) { .hero-text p { text-align: left; } .hero-text .interests, .hero-text .interests p, .hero-text .links { text-align: center; } }
+@media (max-width: 600px) { .hero-text p { text-align: left; } }
