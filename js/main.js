@@ -14,7 +14,12 @@
 
   // ---- Theme toggle ("Tsukuyomi" = dark) ----
   var btn = document.getElementById('theme-toggle');
-  function syncBtn() { if (btn) btn.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'dark' ? 'true' : 'false'); }
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  function syncBtn() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    if (btn) btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    if (themeMeta) themeMeta.setAttribute('content', dark ? '#0d0a0b' : '#f6f1e7'); // mobile browser chrome follows the theme
+  }
   syncBtn();
   if (btn) btn.addEventListener('click', function () {
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -34,6 +39,13 @@
   if (toggle && links) toggle.addEventListener('click', function () {
     var open = links.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  // Escape closes the open menu (focus returns to its button); so does a tap outside it
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && links && links.classList.contains('open')) { closeMenu(); if (toggle) toggle.focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (links && links.classList.contains('open') && !links.contains(e.target) && !(toggle && toggle.contains(e.target))) closeMenu();
   });
 
   // ---- Smooth scroll for in-page anchors ----
